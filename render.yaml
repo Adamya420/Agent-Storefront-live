@@ -1,0 +1,36 @@
+# Render deployment for the Agent Storefront backend (FastAPI).
+# One-click: New + -> Blueprint -> point at this repo. Set the sync:false secrets
+# in the dashboard after the service is created.
+services:
+  - type: web
+    name: agent-storefront-api
+    runtime: python
+    plan: free
+    healthCheckPath: /health
+    buildCommand: "pip install -r requirements.txt && python data/generate_keys.py"
+    startCommand: "uvicorn backend.api.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: ACG_SETTLEMENT_MODE
+        value: simulate
+      - key: ACG_ENV
+        value: prod
+      - key: ACG_ALLOWED_ORIGINS
+        sync: false        # set to your Vercel URL, e.g. https://agent-storefront.vercel.app
+      - key: ACG_CONSOLE_PASSWORD
+        sync: false        # your demo password (backend-only; never in the frontend)
+      - key: DATABASE_URL
+        sync: false        # Supabase POOLER URI (port 6543)
+      - key: UPSTASH_REDIS_REST_URL
+        sync: false
+      - key: UPSTASH_REDIS_REST_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ACG_MERCHANT_ID
+        value: "merchant://acg-sports"
+      - key: MANDATE_USER_KID
+        value: user-test-1
+      - key: MANDATE_AGENT_KID
+        value: agent-test-1
+      - key: MANDATE_MERCHANT_KID
+        value: merchant-test-1
