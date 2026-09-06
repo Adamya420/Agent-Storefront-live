@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   ACG Observatory — token system
+   Linear's restraint × Stripe's polish × Bloomberg's density ×
+   Razorpay's fintech trust, synthesized — not copied from any one.
+   Mostly neutral/light surfaces; color is a semantic signal only
+   (accent = interactive, jade/ochre/crimson = pass/pending/deny),
+   never decoration. No boxed metric grid, no card-everywhere —
+   hierarchy comes from type, whitespace and dividers.
+   ============================================================ */
+
+:root {
+  --font-sans: "IBM Plex Sans";
+  --font-mono: "IBM Plex Mono";
+  --ease: cubic-bezier(0.4, 0, 0.1, 1);
+}
+
+/* ---- LIGHT (default): near-white cool neutral, not stark white ---- */
+:root, [data-theme="light"] {
+  --bg: 250 250 251;         /* #FAFAFB page */
+  --surface: 255 255 255;    /* #FFFFFF raised (drawers/modals only) */
+  --ink: 20 24 31;           /* #14181F primary text */
+  --ink2: 75 85 99;          /* #4B5563 secondary */
+  --ink3: 124 133 145;       /* #7C8591 tertiary — still >=4.5:1 on bg/surface */
+  --line: 228 231 235;       /* #E4E7EB hairline divider */
+  --line2: 211 215 221;      /* #D3D7DD functional border (inputs, sliders) */
+  --accent: 52 82 217;       /* #3452D9 interactive only — never status */
+  --accent-bg: 234 238 251;  /* #EAEEFB */
+  --jade: 15 157 102;        /* #0F9D66 pass / converted */
+  --jade-bg: 231 246 238;
+  --ochre: 166 105 10;       /* #A6690A pending / near-miss */
+  --ochre-bg: 251 241 224;
+  --crimson: 194 52 52;      /* #C23434 deny / danger */
+  --crimson-bg: 251 234 234;
+  --shadow: 20 24 31;
+}
+
+/* ---- DARK: not an inversion — surfaces stack upward, accents lighten ---- */
+[data-theme="dark"] {
+  --bg: 11 13 17;            /* #0B0D11 */
+  --surface: 20 23 28;       /* #14171C */
+  --ink: 231 233 236;        /* #E7E9EC */
+  --ink2: 154 163 175;       /* #9AA3AF */
+  --ink3: 107 116 128;       /* #6B7480 */
+  --line: 35 39 46;          /* #23272E */
+  --line2: 51 57 68;         /* #333944 */
+  --accent: 124 147 255;     /* #7C93FF */
+  --accent-bg: 30 36 61;
+  --jade: 53 201 139;        /* #35C98B */
+  --jade-bg: 19 42 35;
+  --ochre: 224 165 66;       /* #E0A542 */
+  --ochre-bg: 45 36 19;
+  --crimson: 229 88 92;      /* #E5585C */
+  --crimson-bg: 46 23 24;
+  --shadow: 0 0 0;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  margin: 0;
+  background: rgb(var(--bg));
+  color: rgb(var(--ink));
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+a { color: rgb(var(--accent)); text-decoration: none; }
+a:hover { color: rgb(var(--accent) / 0.8); }
+::selection { background: rgb(var(--accent) / 0.22); }
+
+.mono { font-family: var(--font-mono), ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.tnum { font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(var(--ink3)); font-weight: 600; }
+
+/* scrollbars that match the surface */
+* { scrollbar-width: thin; scrollbar-color: rgb(var(--line2)) transparent; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-thumb { background: rgb(var(--line2)); border-radius: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+:focus-visible { outline: 2px solid rgb(var(--accent) / 0.7); outline-offset: 2px; border-radius: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* Staggered row entrance — same fill-mode-both discipline as the console's
+   prior "invisible rows" incident taught: the keyframe's `from` (opacity:0)
+   only ever applies during the delay window, `to` (opacity:1) holds after,
+   so a failed animation is worst-case VISIBLE, never invisible. */
+@keyframes fade-up { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.stagger > * { animation: fade-up 0.28s var(--ease) both; }
+.stagger > *:nth-child(1) { animation-delay: 0.01s; }
+.stagger > *:nth-child(2) { animation-delay: 0.03s; }
+.stagger > *:nth-child(3) { animation-delay: 0.05s; }
+.stagger > *:nth-child(4) { animation-delay: 0.07s; }
+.stagger > *:nth-child(5) { animation-delay: 0.09s; }
+.stagger > *:nth-child(6) { animation-delay: 0.11s; }
+.stagger > *:nth-child(n+7) { animation-delay: 0.13s; }
+
+/* range slider thumb (the band editor) */
+.obs-slider { -webkit-appearance: none; appearance: none; background: transparent; }
+.obs-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; height: 14px; width: 14px; border-radius: 9999px;
+  background: rgb(var(--surface)); border: 2px solid rgb(var(--accent));
+  box-shadow: 0 1px 2px rgb(var(--shadow) / 0.2); cursor: pointer; margin-top: -5.5px;
+}
+.obs-slider::-moz-range-thumb {
+  height: 14px; width: 14px; border-radius: 9999px; background: rgb(var(--surface));
+  border: 2px solid rgb(var(--accent)); cursor: pointer;
+}
+.obs-slider::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; }
+.obs-slider::-moz-range-track { height: 3px; border-radius: 2px; }
