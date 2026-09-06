@@ -1,0 +1,13 @@
+sku,title,category,list_price,cost,stock,return_days,shipping_days,effective_price,promo_code,description
+ASG-RUN-001,Cloud Strider,running_shoes,4299,3000,25,20,2,,,Lightweight everyday running shoe
+ASG-RUN-002,Trailblaze Runner,running_shoes,4799,3700,25,14,2,,,Rugged trail runner with grippy outsole
+ASG-RUN-003,Aero Daily,running_shoes,4599,3300,25,20,6,,,Breathable daily trainer
+ASG-RUN-004,Peak Trainer GT,running_shoes,5199,3600,20,20,2,,,Premium tempo trainer
+ASG-RUN-005,Summit Pro,running_shoes,4899,3500,20,12,6,,,Long-distance stability shoe
+ASG-RUN-006,Sunday Long-Run,running_shoes,5499,3700,15,20,2,4799,SUMMER,Cushioned long-run shoe (on promo)
+ASG-RUN-007,Carbon X Racer,running_shoes,7499,6200,8,20,2,,,Carbon-plated race shoe
+ASG-TRN-001,Grip Trainer,training_shoes,3999,2700,25,20,2,,,All-purpose gym trainer
+ASG-TRN-002,Flex Trainer,training_shoes,4299,3000,20,18,3,,,Flexible cross-training shoe
+ASG-SOCK-001,Grip Crew Socks,socks,400,120,200,30,2,,,Cushioned crew socks
+ASG-SOCK-002,Performance Ankle Socks,socks,300,90,200,30,2,,,Moisture-wicking ankle socks
+ASG-ACC-001,Laces + Insole Kit,accessories,500,150,100,30,2,,,Replacement laces and cushioned insoles
