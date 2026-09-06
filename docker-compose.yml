@@ -1,0 +1,24 @@
+# ACG — backend + frontend only.
+# Postgres is Supabase (remote) and Redis is Upstash (remote); neither runs here.
+# A judge needs only a populated .env (see .env.example) plus `docker compose up`.
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file: [.env]
+    ports: ["8000:8000"]
+    volumes:
+      - ./backend:/app/backend
+      - ./data:/app/data
+      - ./alembic:/app/alembic
+    command: uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - NEXT_PUBLIC_API_BASE=http://localhost:8000
+    ports: ["3000:3000"]
+    depends_on: [backend]
