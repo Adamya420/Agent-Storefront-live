@@ -37,7 +37,11 @@ TOLERANCE_FLAGS = {
     "return": "return_ok",
     "bundle": "bundle_ok",
     "discount": "discount_ok",
+    # Accept BOTH the CLI shorthand ("shipping") and the canonical token the chat
+    # extractor / sanitizer use ("shipping_upgrade") — they must map to the same
+    # flag. A mismatch here previously crashed /buyer/chat/run with a 500 (E-01).
     "shipping": "shipping_upgrade_ok",
+    "shipping_upgrade": "shipping_upgrade_ok",
 }
 
 

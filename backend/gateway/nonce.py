@@ -47,6 +47,12 @@ class NonceStore(ABC):
     def consume(self, nonce: str, ttl_seconds: int = DEFAULT_TTL_SECONDS) -> bool:
         """Atomically claim the nonce. True on first use, False on replay."""
 
+    def release(self, nonce: str) -> None:
+        """Best-effort un-consume a nonce. Used only as compensation when a paired
+        two-nonce consume half-fails, so a legitimate retry of that exact cart isn't
+        permanently blocked (E-07). Default no-op; concrete stores override."""
+        return None
+
 
 class InMemoryNonceStore(NonceStore):
     """For unit tests only. Thread-safe, atomic, and PERSISTENT for its lifetime.
@@ -81,6 +87,10 @@ class InMemoryNonceStore(NonceStore):
             self._seen[nonce] = now + ttl_seconds
             return True
 
+    def release(self, nonce: str) -> None:
+        with self._lock:
+            self._seen.pop(nonce, None)
+
 
 class UpstashNonceStore(NonceStore):
     """Production nonce store on Upstash Redis (REST).
@@ -106,6 +116,12 @@ class UpstashNonceStore(NonceStore):
         # SET NX EX: returns truthy only if the key was newly created.
         result = self._redis.set(self._key(nonce), "1", nx=True, ex=ttl_seconds)
         return bool(result)
+
+    def release(self, nonce: str) -> None:
+        try:
+            self._redis.delete(self._key(nonce))
+        except Exception:  # noqa: BLE001 — release is best-effort compensation only
+            pass
 
 
 @lru_cache(maxsize=1)

@@ -114,6 +114,9 @@ def store_offer(db, session_id, offer: Offer, cart_hash: str):
         "cart_hash": cart_hash, "total_paise": offer.total_paise,
         "return_terms_days": offer.return_terms_days, "added_cost_paise": offer.added_cost_paise,
         "total_discount_paise": offer.total_discount_paise,
+        # persist the PROMISED delivery so the gate verifies a SHIPPING_UPGRADE offer
+        # against what the engine actually promised, not the stale catalog value (E-03).
+        "delivery_days": offer.delivery_days,
         "items": [{"sku": i.sku, "qty": i.qty, "unit_price_paise": i.unit_price_paise} for i in offer.items],
     })
     row = OfferModel(

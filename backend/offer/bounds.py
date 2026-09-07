@@ -66,6 +66,16 @@ def validate_offer(offer, ceiling: Ceiling, band: MerchantBand,
         return BoundsResult(False, "SHIPPING_LEVER_NOT_TOLERATED")
     if offer.lever_type == "BUNDLE" and not t.bundle_ok:
         return BoundsResult(False, "BUNDLE_NOT_TOLERATED")
+    # MULTI combines >=2 of the above; re-verify each constituent lever's tolerance
+    # from what the offer actually applied (transformation keys) — E-08.
+    if offer.lever_type == "MULTI":
+        tr = offer.transformation or {}
+        if tr.get("discount_paise") and not t.discount_ok:
+            return BoundsResult(False, "DISCOUNT_LEVER_NOT_TOLERATED")
+        if tr.get("return_to_days") and not t.return_ok:
+            return BoundsResult(False, "RETURN_LEVER_NOT_TOLERATED")
+        if tr.get("delivery_to_days") and not t.shipping_upgrade_ok:
+            return BoundsResult(False, "SHIPPING_LEVER_NOT_TOLERATED")
 
     # --- margin floor (the no-loss guarantee) ---
     if offer.resulting_margin_bps < band.margin_floor_bps:

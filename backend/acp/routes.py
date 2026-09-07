@@ -295,7 +295,15 @@ def complete_checkout(session_id: str, req: CompleteCheckoutRequest):
             cart_total_paise=cart["total_paise"] if cart else 0,
             ceiling=ceiling,
             cart_return_days=cart["return_terms_days"] if cart else 0,
-            cart_delivery_days=product.shipping_days if product else 999,
+            # Verify delivery against what the engine PROMISED (persisted on the stored
+            # offer), not the raw catalog value — otherwise a legitimate SHIPPING_UPGRADE
+            # offer is wrongly denied at check 6 (E-03). Falls back to the catalog value
+            # for as-is offers (where they're identical).
+            cart_delivery_days=(
+                (chosen.transformation.get("delivery_days") if chosen else None)
+                if (chosen and chosen.transformation.get("delivery_days") is not None)
+                else (product.shipping_days if product else 999)
+            ),
             cart_quantity=cart["items"][0]["qty"] if cart else 0,
             concession_within_band=(chosen.within_bounds if chosen else True),
             resulting_margin_bps=realized_bps,      # realized on the actual captured amount

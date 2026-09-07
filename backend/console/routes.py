@@ -435,7 +435,14 @@ def import_catalog(body: CsvImport):
         m = active_merchant(db)
         if m is None:
             raise HTTPException(400, "no active merchant; seed a merchant first")
-        by_sku = {r["sku"]: r for r in rows}
+        # de-dupe within the file by SKU (last row wins), but SURFACE the collision so
+        # a copy-paste duplicate isn't silently dropped with no trace (E-05).
+        by_sku: dict = {}
+        for r in rows:
+            if r["sku"] in by_sku:
+                errors.append({"line": 0, "sku": r["sku"],
+                               "error": f"duplicate SKU in file — an earlier row for {r['sku']} was overwritten"})
+            by_sku[r["sku"]] = r
         for sku, r in by_sku.items():
             fields = {k: v for k, v in r.items() if k not in ("attributes", "description", "sku")}
             existing = db.get(Product, sku)
@@ -677,11 +684,16 @@ def buyer_run(body: RunReq):
     from scripts.sign_cart import main as sign_cart_main
 
     intent = body.intent
+    # The buyer-chat flow signs a SINGLE-item cart, so it can't reproduce a
+    # multi-item BUNDLE offer's cart hash (that would fail CART_INTEGRITY at the
+    # gate). Bundles stay a real, visible lever on the merchant side; the chat
+    # demo drives the single-item levers (as-is, return, shipping, discount).
+    _tolerate = [t for t in intent.get("tolerate", ["return"]) if t != "bundle"] or ["return"]
     payload = build_intent_mandate(
         category=intent["category"], max_price_paise=intent["max_price_paise"],
         min_return_days=intent.get("min_return_days", 0),
         max_delivery_days=intent.get("max_delivery_days", 7), quantity=intent.get("quantity", 1),
-        tolerate=intent.get("tolerate", ["return"]), allowed_merchants=[MERCHANT_URI],
+        tolerate=_tolerate, allowed_merchants=[MERCHANT_URI],
         buyer_id=BUYER_ID, agent_id=AGENT_ID, ttl_minutes=15)
     intent_jws = sign_mandate(payload, load_private_key("user-test-1"), kid="user-test-1")
 
