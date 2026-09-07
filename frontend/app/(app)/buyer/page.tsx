@@ -68,14 +68,15 @@ export default function BuyerChat() {
   );
 }
 
-// Each prompt is tuned against data/demo-catalog.csv to force a specific engine
-// lever, so a judge clicking through sees the engine recover a sale each time
-// (not just an as-is match).
+// Constraint-based prompts (the extractor parses price + return window, not product
+// names), tuned against data/demo-catalog.csv so each reliably drives a lever that
+// SETTLES: plain = as-is, an 18-day return forces RETURN_EXTENSION, a tight ceiling
+// forces DISCOUNT. (Bundle is intentionally not shown here — its multi-item cart can't be chat-signed.)
 const SUGGESTED_PROMPTS: string[] = [
-  "Trailblaze trail runner under ₹5,000 with an 18-day return",
-  "Aero daily running shoe under ₹5,000, delivered in 2 days",
-  "Running shoes under ₹5,000 — open to a bundle",
-  "The Peak Trainer GT, under ₹5,000",
+  "Running shoes under ₹5,000",
+  "Running shoes under ₹5,000 with an 18-day return window",
+  "Running shoes under ₹5,000, delivered in 2 days",
+  "Running shoes under ₹4,000",
 ];
 
 function ChatPane({ thread, patch }: { thread: Thread; patch: (p: Partial<Thread>) => void }) {

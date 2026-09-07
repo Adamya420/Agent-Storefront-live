@@ -1,13 +1,26 @@
 sku,title,category,list_price,cost,stock,return_days,shipping_days,effective_price,promo_code,description
-ASG-RUN-001,Cloud Strider,running_shoes,4299,3000,25,20,2,,,Lightweight everyday running shoe
-ASG-RUN-002,Trailblaze Runner,running_shoes,4799,3700,25,14,2,,,Rugged trail runner with grippy outsole
-ASG-RUN-003,Aero Daily,running_shoes,4599,3300,25,20,6,,,Breathable daily trainer
-ASG-RUN-004,Peak Trainer GT,running_shoes,5199,3600,20,20,2,,,Premium tempo trainer
-ASG-RUN-005,Summit Pro,running_shoes,4899,3500,20,12,6,,,Long-distance stability shoe
-ASG-RUN-006,Sunday Long-Run,running_shoes,5499,3700,15,20,2,4799,SUMMER,Cushioned long-run shoe (on promo)
-ASG-RUN-007,Carbon X Racer,running_shoes,7499,6200,8,20,2,,,Carbon-plated race shoe
-ASG-TRN-001,Grip Trainer,training_shoes,3999,2700,25,20,2,,,All-purpose gym trainer
-ASG-TRN-002,Flex Trainer,training_shoes,4299,3000,20,18,3,,,Flexible cross-training shoe
+ASG-RUN-001,Cloud Strider,running_shoes,4299,3000,40,15,4,,,Lightweight everyday running shoe
+ASG-RUN-002,Trailblaze Runner,running_shoes,4799,3600,30,15,4,,,Rugged trail runner with grippy outsole
+ASG-RUN-003,Aero Daily,running_shoes,4599,3400,35,15,4,,,Breathable daily trainer
+ASG-RUN-004,Peak Trainer GT,running_shoes,5199,3600,20,15,4,,,Premium tempo trainer
+ASG-RUN-005,Summit Pro,running_shoes,4899,3500,25,15,4,,,Long-distance stability shoe
+ASG-RUN-006,Sunday Long-Run,running_shoes,5499,3700,15,15,4,4799,SUMMER,Cushioned long-run shoe on promo
+ASG-RUN-007,Carbon X Racer,running_shoes,7499,5200,8,20,4,,,Carbon-plated race-day shoe
+ASG-RUN-008,Pace Setter,running_shoes,4499,3150,30,15,4,,,Responsive tempo trainer
+ASG-RUN-009,Marathon Elite,running_shoes,6299,4400,12,20,4,,,Premium marathon racing shoe
+ASG-RUN-010,City Jogger,running_shoes,4399,3050,35,15,4,,,Urban commuter running shoe
+ASG-TRN-001,Grip Trainer,training_shoes,3999,2700,40,15,4,,,All-purpose gym trainer
+ASG-TRN-002,Flex Trainer,training_shoes,4299,3000,25,15,4,,,Flexible cross-training shoe
+ASG-TRN-003,Power Lift,training_shoes,4699,3250,20,15,4,,,Stable weightlifting trainer
+ASG-TRN-004,Studio Flow,training_shoes,3799,2550,30,15,4,,,Lightweight studio and HIIT shoe
+ASG-APP-001,Featherlight Tee,apparel,1299,450,80,30,3,,,Moisture-wicking running tee
+ASG-APP-002,Trail Shorts,apparel,1799,650,60,30,3,,,Lightweight trail running shorts
+ASG-APP-003,Windbreaker Jacket,apparel,2999,1200,40,30,3,,,Packable running windbreaker
+ASG-APP-004,Compression Tights,apparel,2199,850,50,30,3,,,Full-length compression tights
 ASG-SOCK-001,Grip Crew Socks,socks,400,120,200,30,2,,,Cushioned crew socks
 ASG-SOCK-002,Performance Ankle Socks,socks,300,90,200,30,2,,,Moisture-wicking ankle socks
+ASG-SOCK-003,Merino Trail Socks,socks,600,200,120,30,2,,,Merino-blend trail socks
 ASG-ACC-001,Laces + Insole Kit,accessories,500,150,100,30,2,,,Replacement laces and cushioned insoles
+ASG-ACC-002,Running Cap,accessories,900,300,90,30,2,,,Breathable running cap
+ASG-ACC-003,Hydration Belt,accessories,1599,600,45,30,2,,,Lightweight hydration running belt
+ASG-ACC-004,Gel Energy Pack (6),accessories,750,250,150,30,2,,,Six-pack of running energy gels

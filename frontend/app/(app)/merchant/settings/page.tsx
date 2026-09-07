@@ -57,6 +57,17 @@ export default function SettingsPage() {
             value={d.return_band_max_days} onChange={set("return_band_max_days")} />
           <Slider label="Shipping upgrade cap" hint="most the engine will spend to expedite" suffix="paise" min={0} max={30000} step={500}
             value={d.shipping_upgrade_max_cost_paise} onChange={set("shipping_upgrade_max_cost_paise")} />
+          <label className="flex cursor-pointer items-center justify-between">
+            <span>
+              <span className="block text-[13px] text-ink">Bundle offers</span>
+              <span className="block text-2xs text-ink3">let the engine propose an accretive add-on bundle</span>
+            </span>
+            <button type="button" role="switch" aria-checked={d.bundle_enabled}
+              onClick={() => setD({ ...d, bundle_enabled: !d.bundle_enabled })}
+              className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${d.bundle_enabled ? "bg-jade" : "bg-line2"}`}>
+              <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${d.bundle_enabled ? "translate-x-4" : "translate-x-0.5"}`} />
+            </button>
+          </label>
         </div>
         <div className="mt-7 flex flex-wrap items-center gap-3 border-t border-line pt-4">
           <Button onClick={save} disabled={saving}>{saving ? "Saving…" : "Save band"}</Button>
